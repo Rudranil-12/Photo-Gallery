@@ -1,121 +1,82 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useReducer, useMemo, useEffect } from "react";
+import axios from "axios";
+import { favouriteReducer } from "./reducer/favouriteReducer";
+import Card from "./components/Card";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [photos, setPhotos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [search, setSearch] = useState("");
+
+  // Initialize favorites from localStorage
+  const [favourites, dispatch] = useReducer(
+    favouriteReducer,
+    [],
+    () => {
+      const localData = localStorage.getItem("favourites");
+      return localData ? JSON.parse(localData) : [];
+    }
+  );
+
+  // Fetch Logic
+  useEffect(() => {
+    const fetchPhotos = async () => {
+      try {
+        const res = await axios.get("https://picsum.photos/v2/list?limit=30");
+        setPhotos(res.data);
+      } catch (err) {
+        setError("Failed to load photos. Please check your connection.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPhotos();
+  }, []);
+
+  // Filter Logic
+  const filteredPhotos = useMemo(() => {
+    return photos.filter((photo) =>
+      photo.author.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [photos, search]);
+
+  const toggleFav = (photo) => {
+    dispatch({ type: "TOGGLE_FAV", payload: photo });
+  };
+
+  if (loading) return <div className="min-h-screen bg-black flex items-center justify-center text-white text-2xl font-mono">Initializing Gallery...</div>;
+  if (error) return <div className="min-h-screen bg-black flex items-center justify-center text-red-500">{error}</div>;
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="min-h-screen bg-black text-white p-4 md:p-10">
+      <header className="max-w-7xl mx-auto mb-10 text-center">
+        <h1 className="text-4xl font-black mb-4 tracking-tighter italic">PHOTO GALLERY</h1>
+        <input
+          type="text"
+          placeholder="Filter by author name..."
+          className="w-full max-w-md p-4 rounded-full bg-zinc-800 border-none text-white focus:ring-2 focus:ring-red-500 transition-all outline-none"
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </header>
 
-      <div className="ticks"></div>
+      {/* THE RESPONSIVE GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        {filteredPhotos.map((photo) => (
+          <Card
+            key={photo.id}
+            photo={photo}
+            toggleFav={toggleFav}
+            favourites={favourites}
+          />
+        ))}
+      </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {filteredPhotos.length === 0 && (
+        <p className="text-center text-zinc-500 mt-20">No photos found matching "{search}"</p>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
