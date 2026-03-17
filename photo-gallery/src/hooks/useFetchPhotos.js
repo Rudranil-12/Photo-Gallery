@@ -34,7 +34,6 @@ const useFetchPhotos = () => {
     fetchPhotos();
 
   }, []);
-
   return { photos, loading, error };
 
 };
