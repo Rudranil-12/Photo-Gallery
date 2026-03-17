@@ -26,7 +26,6 @@ const useFetchPhotos = () => {
     } finally {
 
       setLoading(false);
-
     }
 
   };
