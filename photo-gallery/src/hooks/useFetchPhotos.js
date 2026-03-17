@@ -22,7 +22,6 @@ const useFetchPhotos = () => {
     } catch (err) {
 
       setError("Failed to fetch photos");
-
     } finally {
 
       setLoading(false);
