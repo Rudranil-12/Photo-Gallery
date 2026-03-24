@@ -26,7 +26,6 @@ const useFetchPhotos = () => {
 
       setLoading(false);
     }
-
   };
 
   useEffect(() => {
