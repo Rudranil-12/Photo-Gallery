@@ -8,7 +8,7 @@ const useFetchPhotos = () => {
   const [error, setError] = useState(null);
   const fetchPhotos = async () => {
 
-    
+
     try {
 
       setLoading(true);
