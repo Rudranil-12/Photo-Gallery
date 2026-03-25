@@ -13,7 +13,6 @@ const useFetchPhotos = () => {
     try {
 
       setLoading(true);
-
       const res = await axios.get(
         "https://picsum.photos/v5/list?limit=30"
       );
