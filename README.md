@@ -16,6 +16,7 @@ A modern and responsive Photo Gallery Web App built using React.js and Tailwind 
 ---
 
 ## 🛠️ Tech Stack
+
 Frontend: React.js
 Styling: Tailwind CSS
 Deployment: Vercel
