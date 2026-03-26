@@ -12,3 +12,6 @@ A modern and responsive Photo Gallery Web App built using React.js and Tailwind 
 🌙 Dark-themed modern UI
 ⚡ Fast performance using React
 🎨 Styled with Tailwind CSS
+
+---
+
