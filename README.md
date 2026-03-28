@@ -24,6 +24,7 @@ Deployment: Vercel
 ---
 
 ## 🎯 How It Works
+
 The app fetches and displays images in a grid layout
 Users can filter images by author name
 Each card includes:
