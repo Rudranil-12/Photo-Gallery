@@ -27,7 +27,7 @@ Deployment: Vercel
 
 - The app fetches and displays images in a grid layout
 - Users can filter images by author name
-Each card includes:
+- Each card includes:
 Image preview
 Author name
 Like button
