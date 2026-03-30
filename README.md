@@ -34,4 +34,4 @@ Deployment: Vercel
 
 ---
 
-Modern gallery systems like this are typically responsive and customizable, maintaining image ratios and grid alignment for better UX
+- Modern gallery systems like this are typically responsive and customizable, maintaining image ratios and grid alignment for better UX
