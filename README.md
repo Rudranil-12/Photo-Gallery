@@ -30,6 +30,6 @@ Deployment: Vercel
 - Each card includes:
 - Image preview
 - Author name
-Like button
+- Like button
 
 Modern gallery systems like this are typically responsive and customizable, maintaining image ratios and grid alignment for better UX
