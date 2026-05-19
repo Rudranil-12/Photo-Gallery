@@ -10,7 +10,7 @@ A modern and responsive Photo Gallery Web App built using React.js and Tailwind 
 - 🔍 Filter images by author name
 - ❤️ Like/Favorite button UI
 - 🌙 Dark-themed modern UI
-⚡ Fast performance using React
+- ⚡ Fast performance using React
 🎨 Styled with Tailwind CSS
 
 ---
