@@ -35,3 +35,5 @@ A modern and responsive Photo Gallery Web App built using React.js and Tailwind 
 ---
 
 - Modern gallery systems like this are typically responsive and customizable, maintaining image ratios and grid alignment for better UX
+
+---
